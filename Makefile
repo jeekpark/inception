@@ -1,34 +1,16 @@
-all :
-	make build
-	make up
+SRC	:=	./srcs
 
-build :
-	docker compose -f ./srcs/docker-compose.yml build
+all: $(SRC)/docker-compose.yml
+	docker compose -f $(SRC)/docker-compose.yml up --build
 
-up :
-	docker compose -f ./srcs/docker-compose.yml up -d
+clean:
+	docker compose -f $(SRC)/docker-compose.yml down -v --rmi all --remove-orphans
 
-down :
-	docker compose -f ./srcs/docker-compose.yml down
+fclean: clean
+	rm -rf ${HOME}/data/mariadb/*
+	rm -rf ${HOME}/data/wordpress/*
+	docker system prune --volumes --all --force
+	docker network prune --force
+	docker volume prune --force
 
-stop :
-	docker compose -f ./srcs/docker-compose.yml stop
-
-erase :
-	docker rm -f `docker ps -aq`
-	docker rmi -f `docker images -aq`
-
-cache :
-	docker builder prune
-
-fclean:
-	docker stop `docker ps -aq`
-	docker rm -f `docker ps -aq`
-	docker rmi -f `docker images -aq`
-	docker compose -f ./srcs/docker-compose.yml down --volumes
-
-re:
-	make fclean
-	make all
-
-.PHONY: all build up down start stop down-volumes erase cache fclean ls re
+.PHONY: all clean fclean

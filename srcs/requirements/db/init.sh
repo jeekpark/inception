@@ -4,7 +4,7 @@ chown -R mysql:mysql /var/lib/mysql
 
 service mariadb start
 while ! mysqladmin ping -h localhost --silent; do
-    sleep 0.1
+    sleep 1
 done
 
 echo "CREATE DATABASE IF NOT EXISTS $DB_NAME ;" > init.sql
@@ -16,7 +16,7 @@ mysql < init.sql
 
 service mariadb stop
 while mysqladmin ping -h localhost --silent; do
-    sleep 0.1
+    sleep 1
 done
 
 
