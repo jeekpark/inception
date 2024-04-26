@@ -7,8 +7,8 @@ clean:
 	docker compose -f $(SRC)/docker-compose.yml down -v --rmi all --remove-orphans
 
 fclean: clean
-	rm -rf ${HOME}/data/mariadb/*
-	rm -rf ${HOME}/data/wordpress/*
+	sudo rm -rf ${HOME}/data/mariadb/*
+	sudo rm -rf ${HOME}/data/wordpress/*
 	docker system prune --volumes --all --force
 	docker network prune --force
 	docker volume prune --force
