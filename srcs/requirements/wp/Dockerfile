@@ -8,8 +8,6 @@ RUN apt-get install curl -y
 
 COPY ./init.sh /
 
-COPY ./dbinstall.sh /
-RUN bash /dbinstall.sh
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["bash", "/init.sh"]
 
